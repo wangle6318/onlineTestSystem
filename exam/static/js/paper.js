@@ -121,10 +121,6 @@ $(function(){
             var form_data = new FormData($(".test").find("form")[0]);
             var examiner_uuid = $(".test_title").attr("data-uuid");
 
-            for (var pair of form_data.entries()){
-                console.log(pair[0]+':'+pair[1])
-            }
-
             $.ajax({
                 url:'/exam/exam_paper/' + String(examiner_uuid),
                 type:'POST',
