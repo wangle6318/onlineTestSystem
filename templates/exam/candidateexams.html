@@ -1,0 +1,50 @@
+{% load static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <link rel="shortcut icon" href="#"/>
+		<title>考试信息</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/examinfo.css' %}"/>
+		<script src="{% static 'js/jquery-3.1.0.min.js' %}" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="content">
+			<div class="container-left">
+				<div class="author-info">
+					<a href="#">
+						<img src="{{ user.head_img.url }}"/>
+					</a>
+				</div>
+				<p>学号：{{ user.username }}</p>
+				<p>姓名：{{ user.name }}</p>
+				<a href="{% url 'exam:student_index' %}" class="current">考试信息</a>
+				<a href="{% url 'exam:history' %}">考试成绩</a>
+                <a href="{% url 'role:logout' %}">退出登陆</a>
+				
+			</div>
+			<div class="container-right">
+				<div class="main">
+					<ul>
+                        {% for examiner in examiners %}
+                        <li>
+							<div class="box-left">
+								<p class="box-title">{{ examiner.exam.title }}</p>
+					 			<p class="box-date">考试时间: <span class="box-start-time">{{ examiner.exam.start_time|date:"Y-m-d H:i:s" }}</span> 至<span class="box-end-time">{{ examiner.exam.end_time|date:"Y-m-d H:i:s" }}</span></p>
+					 			<p class="box-time">考试时长 : <span class="badge">{{ examiner.exam.time }}</span> 分钟</p>
+							</div>
+							<div class="box-right">
+								<a href="{% url 'exam:exampaper' examiner.uuid %}" class="btn" style="width: 100px;">开始考试</a>
+							</div>
+						</li>
+                        {% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">	
+
+	</script>
+</html>

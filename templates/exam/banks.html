@@ -1,0 +1,122 @@
+{% load static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <link rel="shortcut icon" href="#"/>
+		<title>题库列表</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/conservator.css' %}"/>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/bank_list.css' %}"/>
+		<link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_1713310_k1bxcvlffm.css"/>
+		<script src="{% static 'js/jquery-3.1.0.min.js' %}" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/base.js' %}" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="manage-top">
+			<p>在线考试系统教师管理</p>
+				
+			<div>
+			    <span>
+			    	<a class="a1" href="javascript:void(0)"><img src="{{ user.head_img.url }}"><font>{{ user.name }}</font></a>
+			    	<ul style="display: none;">
+{#			    		<li><a href="#"><i class="iconfont icon-people1"></i>个人中心</a></li>#}
+{#			    		<li><a href="#"><i class="iconfont icon-password"></i>修改密码</a></li>#}
+			    		<li><a href="{% url 'role:logout' %}"><i class="iconfont icon-logout1"></i>退出登录</a></li>
+			    	</ul>
+			    </span>
+		   </div>
+			
+		</div>
+		<div class="manage-content">
+			<div class="mc-left">
+				<div class="menuList">
+					<ul class="menu1">
+						<li class="menuli1">
+							<a href="{% url 'exam:index' %}" class="menua1">
+								<i class="iconfont icon-home1 left"></i>
+								<p>教师管理主页</p>
+							</a>
+
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1">
+								<i class="iconfont icon-candidates left"></i>
+								<p>考生管理</p>
+								<i class="iconfont icon-left1 right"></i>
+							</a>
+							<ul class="menu2" style="display: none;">
+								<li class="menuli2"><a href="{% url 'role:students' %}" class="menua2">考生信息</a></li>
+								<li class="menuli2"><a href="{% url 'role:addStudent' %}" class="menua2">添加考生</a></li>
+								<li class="menuli2"><a href="{% url 'role:searchStudent' %}" class="menua2">查询信息</a></li>
+							</ul>
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1 active-menu">
+								<i class="iconfont icon-tiku1 left"></i>
+								<p>题库管理</p>
+								<i class="iconfont icon-bottom right"></i>
+							</a>
+							<ul class="menu2" style="display: block;">
+								<li class="menuli2"><a href="{% url 'exam:getbank' %}" class="menua2 active-menu">题库列表</a></li>
+								<li class="menuli2"><a href="{% url 'exam:addbank' %}" class="menua2">添加题库</a></li>
+							</ul>
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1">
+								<i class="iconfont icon-fenshijuan left"></i>
+								<p>考试管理</p>
+								<i class="iconfont icon-left1 right"></i>
+							</a>
+							<ul class="menu2" style="display: none;">
+								<li class="menuli2"><a href="{% url 'exam:exams' %}" class="menua2">考试信息</a></li>
+								<li class="menuli2"><a href="{% url 'exam:exameditor' '' %}" class="menua2">添加考试</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="mc-right">
+				<div class="mc-title">
+					<font><a>题库管理</a><a>&gt;</a><a>题库列表</a></font>
+				</div>
+				<div class="mc-body" style="max-height: 525px;overflow-y: scroll">
+					<div class="mc-list">
+						<table class="mc-table">
+							<thead>
+								<tr>
+									<th style="min-width: 90px;">题库编号</th>
+									<th style="min-width: 110px;">题库名称</th>
+									<th style="min-width: 110px;">题库类型</th>
+									<th style="min-width: 90px;">题目数量</th>
+									<th>简介</th>
+									<th style="min-width: 250px;">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+                                {% for bank in banks %}
+								<tr data-bankid = "{{ bank.uuid }}">
+									<td>{{ bank.uuid }}</td>
+									<td>{{ bank.name }}</td>
+									<td>{{ bank.get_type_display }}</td>
+									<td>{{ bank.count }}</td>
+									<td style="text-align: left;text-indent: 2em;">{{ bank.intro }}</td>
+									<td>
+										<a class="btn btn-blue" href="{% url 'exam:getquestion' %}?slug={{ bank.uuid }}" target="_blank"><i class="iconfont icon-tubiao09"></i>查阅试题</a>
+										<a class="btn btn-red" href="{% url 'exam:deletebank' %}?slug={{ bank.uuid }}"><i class="iconfont icon-del"></i>删除</a>
+									</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div id="full-screen" style="display: none;"></div>
+		
+	</body>
+</html>
+

@@ -1,0 +1,146 @@
+{% load static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <link rel="shortcut icon" href="#"/>
+		<title>添加考生</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/conservator.css' %}"/>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/add_student.css' %}"/>
+		<link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_1713310_k1bxcvlffm.css"/>
+		<script src="{% static 'js/jquery-3.1.0.min.js' %}" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/base.js' %}" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/add-student-info.js' %}" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="manage-top">
+			<p>在线考试系统教师管理</p>
+			
+			<div>
+			    <span>
+			    	<a class="a1" href="javascript:void(0)"><img src="{{ user.head_img.url }}"><font>{{ user.name }}</font></a>
+			    	<ul style="display: none;">
+{#			    		<li><a href="#"><i class="iconfont icon-people1"></i>个人中心</a></li>#}
+{#			    		<li><a href="#"><i class="iconfont icon-password"></i>修改密码</a></li>#}
+			    		<li><a href="{% url 'role:logout' %}"><i class="iconfont icon-logout1"></i>退出登录</a></li>
+			    	</ul>
+			    </span>
+		   </div>
+			
+		</div>
+		<div class="manage-content">
+			<div class="mc-left">
+				<div class="menuList">
+                    <ul class="menu1">
+						<li class="menuli1">
+							<a href="{% url 'exam:index' %}" class="menua1">
+								<i class="iconfont icon-home1 left"></i>
+								<p>教师管理主页</p>
+							</a>
+
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1 active-menu">
+								<i class="iconfont icon-candidates left"></i>
+								<p>考生管理</p>
+								<i class="iconfont icon-bottom right"></i>
+							</a>
+							<ul class="menu2" style="display: block;">
+								<li class="menuli2"><a href="{% url 'role:students' %}" class="menua2">考生信息</a></li>
+								<li class="menuli2"><a href="{% url 'role:addStudent' %}" class="menua2 active-menu">添加考生</a></li>
+								<li class="menuli2"><a href="{% url 'role:searchStudent' %}" class="menua2">查询信息</a></li>
+							</ul>
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1">
+								<i class="iconfont icon-tiku1 left"></i>
+								<p>题库管理</p>
+								<i class="iconfont icon-left1 right"></i>
+							</a>
+							<ul class="menu2" style="display: none;">
+								<li class="menuli2"><a href="{% url 'exam:getbank' %}" class="menua2">题库列表</a></li>
+								<li class="menuli2"><a href="{% url 'exam:addbank' %}" class="menua2">添加题库</a></li>
+							</ul>
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1">
+								<i class="iconfont icon-fenshijuan left"></i>
+								<p>考试管理</p>
+								<i class="iconfont icon-left1 right"></i>
+							</a>
+							<ul class="menu2" style="display: none;">
+								<li class="menuli2"><a href="{% url 'exam:exams' %}" class="menua2">考试信息</a></li>
+								<li class="menuli2"><a href="{% url 'exam:exameditor' '' %}" class="menua2">添加考试</a></li>
+							</ul>
+						</li>
+					</ul>
+                </div>
+			</div>
+			<div class="mc-right">
+				<div class="mc-title">
+					<font><a>考生管理</a><a>&gt;</a><a>考生信息</a></font>
+				</div>
+				<div class="mc-body">
+					
+					<div class="mc-per-add">
+						<form action="{% url 'role:addStudent' %}" method="post" onsubmit="perAddStudentInfo()">{% csrf_token %}
+							<div class="add-ul-left">
+								<ul>
+									<li>学号</li>
+									<li>密码</li>
+									<li>确认密码</li>
+									<li>姓名</li>
+									<li>性别</li>
+									<li>手机号</li>
+									<li>邮箱</li>
+								</ul>
+							</div>
+							<div class="add-ul-right">
+								<ul>
+									<li><input type="text" name="stuId" placeholder="请输入学号" /><span class="warn-start">*</span></li>
+									<li><input type="password" name="password" placeholder="请输入密码" /><span class="warn-start">*</span><span><i class="iconfont icon-eye-on"></i></span></li>
+									<li><input type="password" name="cpassword" placeholder="请再次输入密码" /><span class="warn-start">*</span><span><i class="iconfont icon-eye-on"></i></span></li>
+									<li><input type="text" name="name" placeholder="请输入姓名" /></li>
+									<li class="sex-size">
+										<input type="radio" name="sex" value="male" /><span>男</span>
+										<input type="radio" name="sex" value="female" /><span>女</span>
+										<input type="radio" name="sex" value="nomale" checked="checked"/><span>保密</span>
+									</li>
+									<li><input type="text" name="phone" placeholder="请输入手机号" /></li>
+									<li><input type="email" name="email" placeholder="请输入邮箱" /></li>
+								</ul>
+							</div>
+							<button type="submit" class="make-sure-add">确认添加</button>
+
+						</form>
+					</div>
+					<div class="mc-batch-add">
+						
+						<div class="add-batch">
+							<p>批量导入考生信息</p>
+							<form action="." method="post">
+								<p><input type="file" name="uploadfile" /></p>
+								<p>导入模板下载：<span><a href="{% url 'role:downloadexcel' 'st' %}" style="color: #2b71c8">{{ excel.name }}.xlsx</a></span></p>
+								<p><button type="button">提交</button></p>
+							</form>
+						</div>
+						
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+	
+	</body>
+    <script>
+        window.onload=function () {
+            var message = "{{ message }}";
+            if (message){
+                alert(message);
+            }
+        }
+    </script>
+
+</html>

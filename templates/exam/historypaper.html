@@ -1,0 +1,413 @@
+{% load static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <link rel="shortcut icon" href="#"/>
+		<title>试卷详情-{{ examiner.exam.title }}</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/exam_paper.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_1713310_9eiv3n535zf.css">
+		<script src="{% static 'js/jquery-3.1.0.min.js' %}" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="test_main">
+			<div class="nr_left">
+				<div class="test">
+					<form action="." method="post">
+						<div class="test_title" data-uuid="{{ examiner.uuid }}">
+							<h2>{{ examiner.exam.title }}</h2>
+							<div class="candidate_info">
+								<span>学号：<i>{{ examiner.students.username }}</i></span>
+								<span>姓名：<i>{{ examiner.students.name }}</i></span>
+                                <span>成绩：<i style="color: red">{{ examiner.get_test_score }}</i>&nbsp;分</span>
+							</div>
+						</div>
+                        {% if mcquestions %}
+						<div class="test_content">
+							<div class="test_content_title">
+								<h2>单选题</h2>
+								<p>
+									<span>共</span>
+									<i class="content_lit">{{ examiner.get_single_num }}</i>
+									<span>题，</span>
+									<span>合计</span>
+									<i class="content_fs">{{ examiner.get_single_score }}</i>
+									<span>分</span>
+								</p>
+							</div>
+						</div>
+                        <div class="test_content_nr">
+							<ul>
+                            {% for question in mcquestions %}
+								<li id="qu_{{ question.examiner.uuid }}_{{ question.question_num }}">
+									<div class="test_content_nr_tt {% if question.single_question.get_img_topic %}have_img{% endif %}">
+										<i>{{ question.question_num }}</i><span>({{ question.score }}分)</span><font>{{ question.single_question.topic }}</font><b class="icon iconfont"></b>
+                                        {% if question.single_question.get_img_topic %}
+                                        <div style="text-align: center;">
+                                            {% for img in question.single_question.get_img_topic %}
+                                            <img src="{{ img.img.url }}"/>
+                                            {% endfor %}
+										</div>
+                                        {% endif %}
+									</div>
+
+									<div class="test_content_nr_main">
+										<ul>
+                                            {% if question.single_question.option_a or question.single_question.get_img_a%}
+											<li class="option {% if question.single_question.get_img_a %}have_img{% endif %}">
+												<input type="radio" class="radioOrCheck" name="answer_{{ question.question_num }}" value="A" id="answer_{{ question.question_num }}_option_a">
+												<label for="answer_{{ question.question_num }}_option_a">
+													A.
+													<p class="ue" style="display: inline;">{{ question.single_question.option_a }}</p>
+                                                    {% for img in question.single_question.get_img_a %}
+                                                    <img src="{{ img.img.url }}" alt="">
+                                                    {% endfor %}
+												</label>
+											</li>
+                                            {% endif %}
+
+                                            {% if question.single_question.option_b or question.single_question.get_img_b %}
+											<li class="option {% if question.single_question.get_img_b %}have_img{% endif %}">
+												<input type="radio" class="radioOrCheck" name="answer_{{ question.question_num }}" value="B" id="answer_{{ question.question_num }}_option_b">
+												<label for="answer_{{ question.question_num }}_option_b">
+													B.
+													<p class="ue" style="display: inline;">{{ question.single_question.option_b }}</p>
+                                                    {% for img in question.single_question.get_img_b %}
+                                                    <img src="{{ img.img.url }}" alt="">
+                                                    {% endfor %}
+												</label>
+											</li>
+                                            {% endif %}
+
+                                            {% if question.single_question.option_c or question.single_question.get_img_c %}
+											<li class="option {% if question.single_question.get_img_c %}have_img{% endif %}">
+												<input type="radio" class="radioOrCheck" name="answer_{{ question.question_num }}" value="C" id="answer_{{ question.question_num }}_option_c">
+												<label for="answer_{{ question.question_num }}_option_c">
+													C.
+													<p class="ue" style="display: inline;">{{ question.single_question.option_c }}</p>
+                                                    {% for img in question.single_question.get_img_c %}
+                                                    <img src="{{ img.img.url }}" alt="">
+                                                    {% endfor %}
+												</label>
+											</li>
+                                            {% endif %}
+
+                                            {% if question.single_question.option_d or question.single_question.get_img_d %}
+											<li class="option {% if question.single_question.get_img_d %}have_img{% endif %}">
+												<input type="radio" class="radioOrCheck" name="answer_{{ question.question_num }}" value="D" id="answer_{{ question.question_num }}_option_d">
+												<label for="answer_{{ question.question_num }}_option_d">
+													D.
+													<p class="ue" style="display: inline;">{{ question.single_question.option_d }}</p>
+                                                    {% for img in question.single_question.get_img_d %}
+                                                    <img src="{{ img.img.url }}" alt="">
+                                                    {% endfor %}
+												</label>
+											</li>
+                                            {% endif %}
+
+                                            {% if question.single_question.option_e or question.single_question.get_img_e %}
+											<li class="option {% if question.single_question.get_img_d %}have_img{% endif %}">
+												<input type="radio" class="radioOrCheck" name="answer_{{ question.question_num }}" value="E" id="answer_{{ question.question_num }}_option_e">
+												<label for="answer_{{ question.question_num }}_option_e">
+													E.
+													<p class="ue" style="display: inline;">{{ question.single_question.option_e }}</p>
+                                                    {% for img in question.single_question.get_img_e %}
+                                                    <img src="{{ img.img.url }}" alt="">
+                                                    {% endfor %}
+												</label>
+											</li>
+                                            {% endif %}
+
+                                            {% if question.single_question.option_f or question.single_question.get_img_f %}
+											<li class="option {% if question.single_question.get_img_d %}have_img{% endif %}">
+												<input type="radio" class="radioOrCheck" name="answer_{{ question.question_num }}" value="F" id="answer_{{ question.question_num }}_option_f">
+												<label for="answer_{{ question.question_num }}_option_f">
+													F.
+													<p class="ue" style="display: inline;">{{ question.single_question.option_f }}</p>
+                                                    {% for img in question.single_question.get_img_f %}
+                                                    <img src="{{ img.img.url }}" alt="">
+                                                    {% endfor %}
+												</label>
+											</li>
+                                            {% endif %}
+                                            <li class="option" style="font-size: 14px">
+                                                你的答案：{{ question.answer }}
+                                            </li>
+                                            <li class="option" style="font-size: 14px">
+                                                正确答案：{{ question.single_question.answer }}
+                                            </li>
+                                            <li class="option" style="font-size: 14px">
+                                                试题解析：{{ question.single_question.analysis }}
+                                            </li>
+										</ul>
+									</div>
+								</li>
+                                {% endfor %}
+                            </ul>
+						</div>
+                        {% endif %}
+
+
+                        {% if mcsquestions %}
+                        <div class="test_content">
+							<div class="test_content_title">
+								<h2>多选题</h2>
+								<p>
+									<span>共</span>
+									<i class="content_lit">{{ examiner.get_multiple_num }}</i>
+									<span>题，</span>
+									<span>合计</span>
+									<i class="content_fs">{{ examiner.get_multiple_score }}</i>
+									<span>分</span>
+								</p>
+							</div>
+						</div>
+						<div class="test_content_nr">
+							<ul>
+                            {% for question in mcsquestions %}
+								<li id="qu_{{ question.examiner.uuid }}_{{ question.question_num }}">
+									<div class="test_content_nr_tt {% if question.multiple_question.get_img_topic %}have_img{% endif %}">
+										<i>{{ question.question_num }}</i><span>({{ question.score }}分)</span><font>{{ question.multiple_question.topic }}</font><b class="icon iconfont"></b>
+                                        {% if question.multiple_question.get_img_topic %}
+                                        <div style="text-align: center;">
+                                            {% for img in question.multiple_question.get_img_topic %}
+                                            <img src="{{ img.img.url }}"/>
+                                            {% endfor %}
+										</div>
+                                        {% endif %}
+									</div>
+									<div class="test_content_nr_main">
+										<ul>
+                                            {% if question.multiple_question.option_a or question.multiple_question.get_img_a %}
+											<li class="option {% if question.multiple_question.get_img_a %}have_img{% endif %}">
+												<input type="checkbox" class="radioOrCheck" name="answer_{{ question.question_num }}" value="A" id="answer_{{ question.question_num }}_option_a">
+												<label for="answer_{{ question.question_num }}_option_a">
+													A.
+													<p class="ue" style="display: inline;">{{ question.multiple_question.option_a }}</p>
+                                                    {% for img in question.multiple_question.get_img_a %}
+                                                        <img src="{{ img.img.url }}" alt="">
+                                                    {% endfor %}
+
+												</label>
+											</li>
+                                            {% endif %}
+
+                                            {% if question.multiple_question.option_b or question.multiple_question.get_img_b %}
+											<li class="option {% if question.multiple_question.get_img_b %}have_img{% endif %}">
+												<input type="checkbox" class="radioOrCheck" name="answer_{{ question.question_num }}" value="B" id="answer_{{ question.question_num }}_option_b">
+												<label for="answer_{{ question.question_num }}_option_b">
+													B.
+													<p class="ue" style="display: inline;">{{ question.multiple_question.option_b }}</p>
+                                                    {% for img in question.multiple_question.get_img_b %}
+                                                        <img src="{{ img.img.url }}" alt="">
+                                                    {% endfor %}
+												</label>
+											</li>
+                                            {% endif %}
+
+                                            {% if question.multiple_question.option_c or question.multiple_question.get_img_c %}
+											<li class="option {% if question.multiple_question.get_img_c %}have_img{% endif %}">
+												<input type="checkbox" class="radioOrCheck" name="answer_{{ question.question_num }}" value="C" id="answer_{{ question.question_num }}_option_c">
+												<label for="answer_{{ question.question_num }}_option_c">
+													C.
+													<p class="ue" style="display: inline;">{{ question.multiple_question.option_c }}</p>
+                                                    {% for img in question.multiple_question.get_img_c %}
+                                                        <img src="{{ img.img.url }}" alt="">
+                                                    {% endfor %}
+												</label>
+											</li>
+                                            {% endif %}
+
+                                            {% if question.multiple_question.option_d or question.multiple_question.get_img_d %}
+											<li class="option {% if question.multiple_question.get_img_d %}have_img{% endif %}">
+												<input type="checkbox" class="radioOrCheck" name="answer_{{ question.question_num }}" value="D" id="answer_{{ question.question_num }}_option_d">
+												<label for="answer_{{ question.question_num }}_option_d">
+													D.
+													<p class="ue" style="display: inline;">{{ question.multiple_question.option_d }}</p>
+                                                    {% for img in question.multiple_question.get_img_d %}
+                                                        <img src="{{ img.img.url }}" alt="">
+                                                    {% endfor %}
+												</label>
+											</li>
+                                            {% endif %}
+
+                                            {% if question.multiple_question.option_e or question.multiple_question.get_img_e %}
+											<li class="option {% if question.multiple_question.get_img_e %}have_img{% endif %}">
+												<input type="checkbox" class="radioOrCheck" name="answer_{{ question.question_num }}" value="E" id="answer_{{ question.question_num }}_option_e">
+												<label for="answer_{{ question.question_num }}_option_e">
+													E.
+													<p class="ue" style="display: inline;">{{ question.multiple_question.option_e }}</p>
+                                                    {% for img in question.multiple_question.get_img_e %}
+                                                        <img src="{{ img.img.url }}" alt="">
+                                                    {% endfor %}
+												</label>
+											</li>
+                                            {% endif %}
+
+                                            {% if question.multiple_question.option_f or question.multiple_question.get_img_f %}
+											<li class="option {% if question.multiple_question.get_img_f %}have_img{% endif %}">
+												<input type="checkbox" class="radioOrCheck" name="answer_{{ question.question_num }}" value="F" id="answer_{{ question.question_num }}_option_f">
+												<label for="answer_{{ question.question_num }}_option_f">
+													F.
+													<p class="ue" style="display: inline;">{{ question.multiple_question.option_f }}</p>
+                                                    {% for img in question.multiple_question.get_img_f %}
+                                                        <img src="{{ img.img.url }}" alt="">
+                                                    {% endfor %}
+												</label>
+											</li>
+                                            {% endif %}
+                                            <li class="option" style="font-size: 14px">
+                                                你的答案：{{ question.answer }}
+                                            </li>
+                                            <li class="option" style="font-size: 14px">
+                                                正确答案：{{ question.multiple_question.answer }}
+                                            </li>
+                                            <li class="option" style="font-size: 14px">
+                                                试题解析：{{ question.multiple_question.analysis }}
+                                            </li>
+										</ul>
+									</div>
+								</li>
+                            {% endfor %}
+                            </ul>
+						</div>
+                        {% endif %}
+
+                        {% if tfquestions %}
+
+                        <div class="test_content">
+							<div class="test_content_title">
+								<h2>判断题</h2>
+								<p>
+									<span>共</span>
+									<i class="content_lit">{{ examiner.get_judge_num }}</i>
+									<span>题，</span>
+									<span>合计</span>
+									<i class="content_fs">{{ examiner.get_judge_score }}</i>
+									<span>分</span>
+								</p>
+							</div>
+						</div>
+						<div class="test_content_nr">
+							<ul>
+                                {% for question in tfquestions %}
+								<li id="qu_{{ question.examiner.uuid }}_{{ question.question_num }}">
+									<div class="test_content_nr_tt {% if question.judge_question.get_img_topic %}have_img{% endif %}">
+										<i>{{ question.question_num }}</i><span>({{ question.score }}分)</span><font>{{ question.judge_question.topic }}</font><b class="icon iconfont"></b>
+                                        {% if question.judge_question.get_img_topic %}
+                                        <div style="text-align: center;">
+                                            {% for img in question.judge_question.get_img_topic %}
+                                            <img src="{{ img.img.url }}"/>
+                                            {% endfor %}
+										</div>
+                                        {% endif %}
+									</div>
+									<div class="test_content_nr_main">
+										<ul>
+											<li class="option">
+												<input type="radio" class="radioOrCheck" name="answer_{{ question.question_num }}" value="1" id="answer_{{ question.question_num }}_option_1">
+												<label for="answer_{{ question.question_num }}_option_1">
+													<p class="ue" style="display: inline;">正确</p>
+												</label>
+											</li>
+											<li class="option">
+												<input type="radio" class="radioOrCheck" name="answer_{{ question.question_num }}" value="0" id="answer_{{ question.question_num }}_option_0">
+												<label for="answer_{{ question.question_num }}_option_0">
+													<p class="ue" style="display: inline;">错误</p>
+												</label>
+											</li>
+                                            <li class="option" style="font-size: 14px">
+                                                你的答案：{% ifequal question.answer '1' %}正确{% else %}错误{% endifequal %}
+                                            </li>
+                                            <li class="option" style="font-size: 14px">
+                                                正确答案：{{ question.judge_question.get_answer_display }}
+                                            </li>
+                                            <li class="option" style="font-size: 14px">
+                                                试题解析：{{ question.judge_question.analysis }}
+                                            </li>
+										</ul>
+									</div>
+								</li>
+                                {% endfor %}
+                            </ul>
+						</div>
+						{% endif %}
+					</form>
+				</div>
+			</div>
+			<div class="nr_right">
+				<div class="nr_rt_main">
+					<div class="rt_nr1">
+						<div class="rt_nr1_title">
+							<h1 style="width: 100%">
+								<i class="icon iconfont"></i>答题卡
+							</h1>
+						</div>
+                        {% if mcquestions %}
+						<div class="rt_content">
+							<div class="rt_content_tt">
+								<h2>单选题</h2>
+								<p>
+									<span>共</span><i class="content_lit">{{ examiner.get_single_num }}</i><span>题</span>
+								</p>
+							</div>
+							<div class="rt_content_nr answerSheet">
+								<ul>
+                                    {% for question in mcquestions %}
+                                        <li class="{% ifequal question.is_true '0' %}falseAnswer{% endifequal %}"><a href="#qu_{{ question.examiner.uuid }}_{{ question.question_num }}">{{ question.question_num }}</a></li>
+                                    {% endfor %}
+								</ul>
+							</div>
+						</div>
+						{% endif %}
+
+                        {% if mcsquestions %}
+                        <div class="rt_content">
+							<div class="rt_content_tt">
+								<h2>多选题</h2>
+								<p>
+									<span>共</span><i class="content_lit">{{ examiner.get_multiple_num }}</i><span>题</span>
+								</p>
+							</div>
+							<div class="rt_content_nr answerSheet">
+								<ul>
+                                    {% for question in mcsquestions %}
+                                        <li class="{% ifequal question.is_true '0' %}falseAnswer{% endifequal %}"><a href="#qu_{{ question.examiner.uuid }}_{{ question.question_num }}">{{ question.question_num }}</a></li>
+                                    {% endfor %}
+								</ul>
+							</div>
+						</div>
+                        {% endif %}
+
+                        {% if tfquestions %}
+                        <div class="rt_content">
+							<div class="rt_content_tt">
+								<h2>判断题</h2>
+								<p>
+									<span>共</span><i class="content_lit">{{ examiner.get_judge_num }}</i><span>题</span>
+								</p>
+							</div>
+							<div class="rt_content_nr answerSheet">
+								<ul>
+                                    {% for question in tfquestions %}
+                                        <li class="{% ifequal question.is_true '0' %}falseAnswer{% endifequal %}"><a href="#qu_{{ question.examiner.uuid }}_{{ question.question_num }}">{{ question.question_num }}</a></li>
+                                    {% endfor %}
+								</ul>
+							</div>
+						</div>
+					    {% endif %}
+                    </div>
+				</div>
+			</div>
+		</div>
+        <div class="side-tool">
+			<ul>
+				<li title="返回首页"><a href="{% url 'exam:history' %}" class="function-button"><i class="iconfont icon-huilaiback41"></i></a></li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+
+		</script>
+	</body>
+</html>

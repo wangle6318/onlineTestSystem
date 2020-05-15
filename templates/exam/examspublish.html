@@ -1,0 +1,142 @@
+{% load static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <link rel="shortcut icon" href="#"/>
+		<title>考试信息-发布考试</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/conservator.css' %}"/>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/examspublish.css' %}"/>
+		<link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_1713310_b2dr182tlfl.css"/>
+		<script src="{% static 'js/jquery-3.1.0.min.js' %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static 'js/examsdesign.js' %}" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/base.js' %}" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="manage-top">
+			<p>在线考试系统教师管理</p>
+			<div>
+			    <span>
+			    	<a class="a1" href="javascript:void(0)"><img src="{{ user.head_img.url }}"><font>{{ user.name }}</font></a>
+			    	<ul style="display: none;">
+{#			    		<li><a href="#"><i class="iconfont icon-people1"></i>个人中心</a></li>#}
+{#			    		<li><a href="#"><i class="iconfont icon-password"></i>修改密码</a></li>#}
+			    		<li><a href="{% url 'role:logout' %}"><i class="iconfont icon-logout1"></i>退出登录</a></li>
+			    	</ul>
+			    </span>
+		   </div>
+		</div>
+		<div class="manage-content">
+			<div class="mc-left">
+				<div class="menuList">
+					<ul class="menu1">
+						<li class="menuli1">
+							<a href="{% url 'exam:index' %}" class="menua1">
+								<i class="iconfont icon-home1 left"></i>
+								<p>教师管理主页</p>
+							</a>
+
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1">
+								<i class="iconfont icon-candidates left"></i>
+								<p>考生管理</p>
+								<i class="iconfont icon-left1 right"></i>
+							</a>
+							<ul class="menu2" style="display: none;">
+								<li class="menuli2"><a href="{% url 'role:students' %}" class="menua2">考生信息</a></li>
+								<li class="menuli2"><a href="{% url 'role:addStudent' %}" class="menua2">添加考生</a></li>
+								<li class="menuli2"><a href="{% url 'role:searchStudent' %}" class="menua2">查询信息</a></li>
+							</ul>
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1">
+								<i class="iconfont icon-tiku1 left"></i>
+								<p>题库管理</p>
+								<i class="iconfont icon-left1 right"></i>
+							</a>
+							<ul class="menu2" style="display: none;">
+								<li class="menuli2"><a href="{% url 'exam:getbank' %}" class="menua2">题库列表</a></li>
+								<li class="menuli2"><a href="{% url 'exam:addbank' %}" class="menua2">添加题库</a></li>
+							</ul>
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1 active-menu">
+								<i class="iconfont icon-fenshijuan left"></i>
+								<p>考试管理</p>
+								<i class="iconfont icon-bottom right"></i>
+							</a>
+							<ul class="menu2" style="display: block;">
+								<li class="menuli2"><a href="{% url 'exam:exams' %}" class="menua2">考试信息</a></li>
+								<li class="menuli2"><a href="{% url 'exam:exameditor' '' %}" class="menua2 active-menu">添加考试</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="mc-right">
+				<div class="mc-title">
+					<font><a>考试管理</a><a>&gt;</a><a>考试信息</a></font>
+				</div>
+				<div class="mc-body">
+					<div class="mc-list">
+						<ul class="navtabs">
+			                <li class="lefttopborder">
+			                    <a id="btnExamBaseInfo" href="javascript:void(0)"><strong>1</strong><span class="examflag">考试</span>信息</a>
+			                    <i></i>
+			                </li>
+			                <li>
+			                    <a href="javascript:void(0)" id="btnCreatePaper"><strong>2</strong>设计试卷</a>
+			                    <i></i>
+			                </li>
+			                <li class="righttopborder active">
+			                    <a id="btnPublishExam" href="javascript:void(0)"><strong>3</strong>发布<span class="examflag">考试</span></a>
+			                    <i></i>
+			                </li>
+			            </ul>
+						<div class="append-box" data-examid="{{ exam.uuid }}">
+							<h4>基本信息</h4>
+							<form action="." method="post" class="create-exam-form">
+								<ul>
+									<li>
+										<label>及格分数</label>
+										<input type="text" name="txtPassScore" value="{% if exam.pass_score %}{{ exam.pass_score }}{% else %}{% widthratio exam.total_socres 10 6 %}{% endif %}" style="width: 20%;border-bottom-right-radius: 0;border-top-right-radius: 0;"/>
+										<span class="input-group-addon" style="width: 20%;">
+											总分：{{ exam.total_socres }}分
+										</span>
+									</li>
+									<li>
+										<label>开始时间</label>
+										<input type="date" name="txtBeginDate" style="width: 23.5%;border-bottom-right-radius: 0;border-top-right-radius: 0;" value="{{ exam.start_time|date:"Y-m-d" }}"/>
+										<input type="text" name="txtBeginTime" style="width: 16.5%;border-left: none;border-bottom-left-radius: 0;border-top-left-radius: 0;" value="{{ exam.start_time|date:"H:i:s" }}"/>
+									</li>
+									<li>
+										<label>结束时间</label>
+										<input type="date" name="txtEndDate" style="width: 23.5%;border-bottom-right-radius: 0;border-top-right-radius: 0;" value="{{ exam.end_time|date:"Y-m-d" }}"/>
+										<input type="text" name="txtEndTime" style="width: 16.5%;border-left: none;border-bottom-left-radius: 0;border-top-left-radius: 0;" value="{{ exam.end_time|date:"H:i:s" }}"/>
+									</li>
+									<li>
+										<label>答题时间</label>
+										<input type="text" name="txtExamTime" style="width: 20%;border-bottom-right-radius: 0;border-top-right-radius: 0;" value="{{ exam.time }}"/>
+										<span class="input-group-addon" style="width: 20%;">
+											分钟
+										</span>
+									</li>
+									<li style="text-align: left;margin-left: 300px;">
+										<button type="button" class="btn-blue" onclick="examSave('Save')">保存</button>
+										<button type="button" class="btn-blue" onclick="examSave('Publish')">立即发布</button>
+                                        <a href="{% url 'exam:exams' %}" class="btn btn-default" id="publish-exam">返回试卷列表</a>
+									</li>
+								</ul>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="full-screen" style="display: none;"></div>
+		
+	</body>
+</html>
+

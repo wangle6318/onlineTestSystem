@@ -1,0 +1,210 @@
+{% load static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <link rel="shortcut icon" href="#"/>
+		<title>考试信息-设计试卷</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/conservator.css' %}"/>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/examsdesign.css' %}"/>
+		<link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_1713310_b2dr182tlfl.css"/>
+		<script src="{% static 'js/jquery-3.1.0.min.js' %}" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/base.js' %}" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/examsdesign.js' %}" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="manage-top">
+			<p>在线考试系统教师管理</p>
+			<div>
+			    <span>
+			    	<a class="a1" href="javascript:void(0)"><img src="{{ user.head_img.url }}"><font>{{ user.name }}</font></a>
+			    	<ul style="display: none;">
+{#			    		<li><a href="#"><i class="iconfont icon-people1"></i>个人中心</a></li>#}
+{#			    		<li><a href="#"><i class="iconfont icon-password"></i>修改密码</a></li>#}
+			    		<li><a href="{% url 'role:logout' %}"><i class="iconfont icon-logout1"></i>退出登录</a></li>
+			    	</ul>
+			    </span>
+		   </div>
+			
+		</div>
+		<div class="manage-content">
+			<div class="mc-left">
+				<div class="menuList">
+					<ul class="menu1">
+						<li class="menuli1">
+							<a href="{% url 'exam:index' %}" class="menua1">
+								<i class="iconfont icon-home1 left"></i>
+								<p>教师管理主页</p>
+							</a>
+
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1">
+								<i class="iconfont icon-candidates left"></i>
+								<p>考生管理</p>
+								<i class="iconfont icon-left1 right"></i>
+							</a>
+							<ul class="menu2" style="display: none;">
+								<li class="menuli2"><a href="{% url 'role:students' %}" class="menua2">考生信息</a></li>
+								<li class="menuli2"><a href="{% url 'role:addStudent' %}" class="menua2">添加考生</a></li>
+								<li class="menuli2"><a href="{% url 'role:searchStudent' %}" class="menua2">查询信息</a></li>
+							</ul>
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1">
+								<i class="iconfont icon-tiku1 left"></i>
+								<p>题库管理</p>
+								<i class="iconfont icon-left1 right"></i>
+							</a>
+							<ul class="menu2" style="display: none;">
+								<li class="menuli2"><a href="{% url 'exam:getbank' %}" class="menua2">题库列表</a></li>
+								<li class="menuli2"><a href="{% url 'exam:addbank' %}" class="menua2">添加题库</a></li>
+							</ul>
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1 active-menu">
+								<i class="iconfont icon-fenshijuan left"></i>
+								<p>考试管理</p>
+								<i class="iconfont icon-bottom right"></i>
+							</a>
+							<ul class="menu2" style="display: block;">
+								<li class="menuli2"><a href="{% url 'exam:exams' %}" class="menua2">考试信息</a></li>
+								<li class="menuli2"><a href="{% url 'exam:exameditor' '' %}" class="menua2 active-menu">添加考试</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="mc-right">
+				<div class="mc-title">
+					<font><a>考试管理</a><a>&gt;</a><a>考试信息</a></font>
+				</div>
+				<div class="mc-body">
+					<div class="mc-list">
+						<ul class="navtabs">
+			                <li class="lefttopborder">
+			                    <a id="btnExamBaseInfo" href="javascript:void(0)"><strong>1</strong><span class="examflag">考试</span>信息</a>
+			                    <i></i>
+			                </li>
+			                <li class="active">
+			                    <a href="javascript:void(0)" id="btnCreatePaper"><strong>2</strong>设计试卷</a>
+			                    <i></i>
+			                </li>
+			                <li class="righttopborder">
+			                    <a id="btnPublishExam" href="javascript:void(0)"><strong>3</strong>发布<span class="examflag">考试</span></a>
+			                    <i></i>
+			                </li>
+			            </ul>
+						<div class="append-box" data-examid="{{ exam.uuid }}" style="max-height: 415px;overflow-y: scroll;">
+							<table class="mc-table">
+								<div class="exam-info">
+									<h5>
+										<i class="iconfont icon-fenshijuan"></i>
+										<span style="color: #3c8dbc;">自动化测试一卷</span>
+										<span>
+											（单选题<span id="mcnums">0</span>道，共<span id="mcscores">0</span>分；
+											多选题<span id="mcsnums">0</span>道，共<span id="mcsscores">0</span>分；
+											判断题<span id="tfnums">0</span>道，共<span id="tfscores">0</span>分。
+											合计<span id="sumnums">0</span>道，<span id="sumscores">0</span>分）
+										</span>
+									</h5>
+								</div>
+								<thead>
+									<tr>
+										<th style="min-width: 130px;">试题类型</th>
+										<th style="min-width: 130px;">题库名称</th>
+										<th style="min-width: 100px;">抽题数量设置</th>
+										<th style="min-width: 100px;">每题分数</th>
+										<th style="min-width: 100px;">总分</th>
+										<th style="min-width: 100px;">操作</th>
+									</tr>
+								</thead>
+								<tbody>
+                                {% for random in exam.exam_random_to.all %}
+                                    <tr data-uuid = "{{ random.uuid }}">
+										<td>
+											<select name="banktype_{{ random.uuid }}" style="height: 28px;width: 80%;">
+                                                {% ifequal random.bank.type 'mc' %}
+                                                    <option value="mc" selected="selected">单项选择题</option>
+                                                {% else %}
+                                                    <option value="mc">单项选择题</option>
+                                                {% endifequal %}
+                                                {% ifequal random.bank.type 'mcs' %}
+                                                    <option value="mcs" selected="selected">多项选择题</option>
+                                                {% else %}
+                                                    <option value="mcs">多项选择题</option>
+                                                {% endifequal %}
+                                                {% ifequal random.bank.type 'tf' %}
+                                                    <option value="tf" selected="selected">判断题</option>
+                                                {% else %}
+                                                    <option value="tf">判断题</option>
+                                                {% endifequal %}
+											</select>
+										</td>
+										<td>
+											<select name="bank_{{ random.uuid }}" style="height: 28px;width: 80%;">
+                                                {% ifequal random.bank.type 'mc' %}
+                                                    {% for bank in mcbanks %}
+                                                        {% ifequal bank.uuid random.bank.uuid %}
+                                                            <option value="{{ bank.uuid }}" selected="selected">{{ bank.name }}</option>
+                                                        {% else %}
+                                                            <option value="{{ bank.uuid }}">{{ bank.name }}</option>
+                                                        {% endifequal %}
+                                                    {% endfor %}
+                                                {% endifequal %}
+                                                {% ifequal random.bank.type 'mcs' %}
+                                                    {% for bank in mcsbanks %}
+                                                        {% ifequal bank.uuid random.bank.uuid %}
+                                                            <option value="{{ bank.uuid }}" selected="selected">{{ bank.name }}</option>
+                                                        {% else %}
+                                                            <option value="{{ bank.uuid }}">{{ bank.name }}</option>
+                                                        {% endifequal %}
+                                                    {% endfor %}
+                                                {% endifequal %}
+                                                {% ifequal random.bank.type 'tf' %}
+                                                    {% for bank in tfbanks %}
+                                                        {% ifequal bank.uuid random.bank.uuid %}
+                                                            <option value="{{ bank.uuid }}" selected="selected">{{ bank.name }}</option>
+                                                        {% else %}
+                                                            <option value="{{ bank.uuid }}">{{ bank.name }}</option>
+                                                        {% endifequal %}
+                                                    {% endfor %}
+                                                {% endifequal %}
+											</select>
+										</td>
+										<td>
+											<input type="text" name="questionnum_{{ random.uuid }}" id="" value="{{ random.count }}" style="height: 28px;width: 30px;"/>
+											&#47;
+											<span class="max-num">{{ random.bank.count }}</span>
+										</td>
+										<td>
+											<input type="text" name="questionscore_{{ random.uuid }}" id="" value="{{ random.score|floatformat:2 }}" style="height: 28px;width: 50px;"/>
+										</td>
+										<td>
+											{% widthratio random.count 1 random.score %}
+										</td>
+										<td class="option_btn">
+											<a href="javascript:void(0);" style="position: relative;left: 15px;"><i class="iconfont icon-del"></i>删除</a>
+										</td>
+									</tr>
+                                {% endfor %}
+								</tbody>
+							</table>
+							<div style="margin-bottom: 4px; text-align: center;line-height:35px; background: #fff; border: 1px solid #ddd;border-top:none;width: 100%; font-size: 13px; margin: 0 auto;padding:6px 2px;">
+								<button id="btnAddNode" class="btn btn-default" type="button">
+									<i class="iconfont icon-add1"></i>   添加随机策略
+								</button>
+							</div>
+						</div>
+						<div style="position: absolute;bottom: 0;left: 700px;">
+							<a href="{% url 'exam:examdpublish' exam.uuid %}" class="btn btn-blue" style="color: white">保存&nbsp;&amp;&nbsp;去发布考试</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="full-screen" style="display: none;"></div>
+		
+	</body>
+</html>

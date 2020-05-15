@@ -1,0 +1,172 @@
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+*{
+	margin: 0;
+	padding: 0;
+}
+
+a{
+	text-decoration: none;
+}
+
+img{
+	vertical-align: middle;
+}
+
+li{
+	list-style: none;
+}
+
+button:focus{outline: none;}
+
+.content{
+	width: 1030px;
+	margin: 0 auto;
+}
+
+.container-left{
+	width: 225px;
+	height: 625px;
+	float: left;
+	background-color: #008CBA;
+	padding: 0 20px;
+}
+
+.container-left .author-info{
+	margin-top: 40px;
+	width: 185px;
+	height: 140px;
+	text-align: center;
+}
+
+.container-left > p{
+	margin-top: 10px;
+	display: block;
+    font-size: 15px;
+    padding: 9px 0 9px 10px;
+    color: white;
+    border-bottom: 1px solid rgba(255,255,255,.8);
+    text-align: left;
+}
+
+.container-left > a:first{
+	margin-top: 20px;
+}
+
+.container-left > a{
+	margin-top: 40px;
+	display: block;
+    font-size: 15px;
+    padding: 9px 0;
+    color: white;
+    border: 1px solid rgba(255,255,255,.8);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.container-left > a.current, .container-left > a:hover{
+	background-color: white;
+	color: #008CBA;
+	font-weight: bold;
+	box-shadow: 2px 2px 2px grey;
+}
+
+.container-left .author-info a img{
+	height: 110px;
+	width: 110px;
+	border-radius: 50%;
+	border: 1px solid white;
+	margin-bottom: 20px;
+}
+
+.container-left .author-info a p{
+	color: white;
+	font-weight: bold;
+}
+
+.container-right{
+	float: right;
+}
+
+.main > ul{
+	padding: 0;
+}
+
+.main > ul{
+	background-color: #EEEEEE;
+	width: 800px;
+	height: auto;
+	border-top: 10px solid #008CBA;
+}
+
+.main > ul > li{
+	height: 121px;
+	border-bottom: 1px solid #008CBA;
+	padding:0;
+}
+
+.main > ul > li > .box-left > p{
+	margin: 0;
+	height: 40px;
+	line-height: 40px;
+}
+
+
+.box-left{
+	position: relative;
+	float: left;
+	width: 600px;
+	text-align: center;
+	color: #595959;
+}
+
+.box-left .box-title{
+    margin-bottom: 0;
+    border: none;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 30px;
+    color: #595959;
+    margin-top: 10px;
+}
+
+.box-left .box-date{
+	display: block;
+	margin: 10px 0;
+}
+
+.box-left .box-time .badge{
+	color: white;
+	font-weight: bold;
+	background-color: gray;
+	border-radius: 12px;
+	padding: 1px 8px;
+}
+
+
+.box-right{
+	position: relative;
+	float: left;
+	width: 150px;
+}
+
+.btn{
+	display: block;
+	position: relative;
+	font-weight: bold;
+	font-size: 16px;
+	border: 0;
+	border-radius: 10px;
+	top: 39px;
+	background-color: #008CBA;
+	color: white;
+	cursor: pointer;
+	padding: 5px 10px;
+	text-align: center;
+}
+
+
+
+

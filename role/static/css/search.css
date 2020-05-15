@@ -1,0 +1,42 @@
+button:focus{
+	outline: none;
+}
+
+.search-form{
+	height: 30px;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.search-form ul li{
+	float: left;
+	margin-right: 30px;
+	line-height: 40px;
+	font-size: 16px;
+}
+
+.search-form ul li input{
+	height: 25px;
+	width: 150px;
+	border-radius: 5px;
+	border: 1px solid grey;
+	text-indent: 5px;
+}
+
+.search-form ul li button{
+	border: none;
+	/*padding: 5px 15px;*/
+	background-color: #3c8dbc;
+	color: #FFFFFF;
+	cursor: pointer;
+	border-radius: 5px;
+	height: 28px;
+	line-height: 28px;
+	width: 75px;
+	padding: auto;
+}
+
+.search-form ul li button i{
+	margin-right: 3px;
+}
+

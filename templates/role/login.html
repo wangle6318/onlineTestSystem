@@ -1,0 +1,70 @@
+{% load static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="#"/>
+    <title>在线考试系统-登录</title>
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
+    <link rel="stylesheet" href="{% static "css/index.css" %}">
+    
+</head>
+<body>
+    <div class="bg"></div>
+    <div class="container">
+        <div class="line bouncein">
+            <div class="xs6 xm4 xs3-move xm4-move">
+                <div style="height:60px;"></div>
+                <div class="media media-y margin-big-bottom">
+                </div>
+                <form action="{% url 'index' %}" method="post">{% csrf_token %}
+                    <div class="panel loginbox">
+                        <div class="text-center margin-big padding-big-top">
+                            <h1>在线考试系统登陆</h1>
+                        </div>
+                        <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
+                            <div class="form-group">
+                                <div class="field field-icon-right">
+                                    <input type="text" class="input input-big" name="name" id="username" placeholder="学号/工号" />
+                                    <span class="icon icon-user margin-small"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field field-icon-right">
+                                    <input type="password" class="input input-big" name="password" id="password"  placeholder="请输入密码" />
+                                    <span class="icon icon-key margin-small"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field field-icon-right">
+                                    <select class="input input-big" name="role" id="role">
+                                    	<option value="student">学生</option>
+                                    	<option value="teacher">教师</option>
+                                    </select>
+                                    <span class="icon icon-users margin-small" style="background-color: white;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field">
+                                    <input type="text" class="input input-big" name="code" placeholder="填写右侧的验证码" />
+                                    <img src="role/get_valid_img" alt="" class="passcode" style="height:44px;cursor:pointer;" onclick="this.src=this.src+'?'" title="点击换一个">
+                                </div>
+                            </div>
+                        </div>
+                       {% if err %}
+                       <div style="text-align: center;color: red;font-size: 16px;">
+                        	<span class="icon icon-warning"></span>{{ err }}
+                        </div>
+                       {% endif %}
+                        <div style="padding:30px;">
+                            <input type="submit" id="button" class="button button-block bg-main text-big input-big" value="登录">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

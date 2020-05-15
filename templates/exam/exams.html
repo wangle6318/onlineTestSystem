@@ -1,0 +1,133 @@
+{% load static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <link rel="shortcut icon" href="#"/>
+		<title>考试信息</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/conservator.css' %}"/>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/exams.css' %}"/>
+		<link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_1713310_k1bxcvlffm.css"/>
+		<script src="{% static 'js/jquery-3.1.0.min.js' %}" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/base.js' %}" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/exams.js' %}" type="text/javascript" charset="utf-8"></script>
+
+	</head>
+	<body>
+		<div class="manage-top">
+			<p>在线考试系统教师管理</p>
+
+			<div>
+			    <span>
+			    	<a class="a1" href="javascript:void(0)"><img src="{{ user.head_img.url }}"><font>{{ user.name }}</font></a>
+			    	<ul style="display: none;">
+{#			    		<li><a href="#"><i class="iconfont icon-people1"></i>个人中心</a></li>#}
+{#			    		<li><a href="#"><i class="iconfont icon-password"></i>修改密码</a></li>#}
+			    		<li><a href="{% url 'role:logout' %}"><i class="iconfont icon-logout1"></i>退出登录</a></li>
+			    	</ul>
+			    </span>
+		   </div>
+
+		</div>
+		<div class="manage-content">
+			<div class="mc-left">
+				<div class="menuList">
+					<ul class="menu1">
+						<li class="menuli1">
+							<a href="{% url 'exam:index' %}" class="menua1">
+								<i class="iconfont icon-home1 left"></i>
+								<p>教师管理主页</p>
+							</a>
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1">
+								<i class="iconfont icon-candidates left"></i>
+								<p>考生管理</p>
+								<i class="iconfont icon-left1 right"></i>
+							</a>
+							<ul class="menu2" style="display: none;">
+								<li class="menuli2"><a href="{% url 'role:students' %}" class="menua2">考生信息</a></li>
+								<li class="menuli2"><a href="{% url 'role:addStudent' %}" class="menua2">添加考生</a></li>
+								<li class="menuli2"><a href="{% url 'role:searchStudent' %}" class="menua2">查询信息</a></li>
+							</ul>
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1">
+								<i class="iconfont icon-tiku1 left"></i>
+								<p>题库管理</p>
+								<i class="iconfont icon-left1 right"></i>
+							</a>
+							<ul class="menu2" style="display: none;">
+								<li class="menuli2"><a href="{% url 'exam:getbank' %}" class="menua2">题库列表</a></li>
+								<li class="menuli2"><a href="{% url 'exam:addbank' %}" class="menua2">添加题库</a></li>
+							</ul>
+						</li>
+						<li class="menuli1">
+							<a href="javascript:void(0);" class="menua1 active-menu">
+								<i class="iconfont icon-fenshijuan left"></i>
+								<p>考试管理</p>
+								<i class="iconfont icon-bottom right"></i>
+							</a>
+							<ul class="menu2" style="display: block;">
+								<li class="menuli2"><a href="{% url 'exam:exams' %}" class="menua2 active-menu">考试信息</a></li>
+								<li class="menuli2"><a href="{% url 'exam:exameditor' '' %}" class="menua2">添加考试</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="mc-right">
+				<div class="mc-title">
+					<font><a>考试管理</a><a>&gt;</a><a>考试信息</a></font>
+				</div>
+				<div class="mc-body" style="max-height: 525px; overflow-y: scroll;">
+					<div class="mc-list">
+						<table class="mc-table">
+							<thead>
+								<tr>
+									<th style="min-width: 225px;">试卷名称</th>
+									<th style="min-width: 100px;">考试总分</th>
+									<th style="min-width: 100px;">及格分数</th>
+									<th style="min-width: 100px;">答题时间</th>
+									<th style="min-width: 330px;">考试时间</th>
+									<th style="min-width: 90px;">状态</th>
+									<th style="min-width: 190px;">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+                            {% for exam in exams %}
+								<tr data-examid = "{{ exam.uuid }}">
+									<td>{{ exam.title }}</td>
+									<td>{{ exam.total_socres }}分</td>
+									<td>{{ exam.pass_score }}分</td>
+									<td>{{ exam.time }}分钟</td>
+									<td>
+										<span>{{ exam.start_time|date:'Y-m-d H:i:s' }}</span>
+										<span>&#126;</span>
+										<span>{{ exam.end_time|date:'Y-m-d H:i:s' }}</span>
+									</td>
+									<td>{{ exam.get_status_display }}</td>
+									<td class="option_btn">
+                                        {% ifequal exam.status 'editor' %}
+										    <a href="{% url 'exam:exameditor' exam.uuid %}" title="编辑考试内容"><i class="iconfont icon-tubiao09"></i>编辑</a>
+                                            <a href="{% url 'exam:examdelete' exam.uuid %}" title="只可删除未发布的考试"><i class="iconfont icon-del"></i>删除</a>
+                                        {% else %}
+                                            <a href="{% url 'exam:examvisible' exam.uuid %}" title="是否允许学生可见已做试卷"><i class="iconfont icon-eye2"></i>可见</a>
+                                            <a href="javascript:void(0);" onclick="alert('考试已发布，不可删除')" title="只可删除未发布的考试"><i class="iconfont icon-del"></i>删除</a>
+                                        {% endifequal %}
+									</td>
+								</tr>
+                            {% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div id="full-screen" style="display: none;"></div>
+
+	</body>
+</html>
